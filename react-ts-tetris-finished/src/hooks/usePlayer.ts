@@ -1,5 +1,5 @@
 import React from 'react';
-import { STAGE_WIDTH } from '../setup';
+import { STAGE_HEIGHT } from '../setup';
 import { isColliding, randomTetromino } from '../gameHelpers';
 import { STAGE } from './useStage';
 
@@ -23,6 +23,7 @@ export const usePlayer = () => {
   };
 
   const playerRotate = (stage: STAGE): void => {
+    console.log("Rotate");
     const clonedPlayer = JSON.parse(JSON.stringify(player));
     clonedPlayer.tetromino = rotate(clonedPlayer.tetromino);
 
@@ -48,12 +49,13 @@ export const usePlayer = () => {
       pos: { x: (prev.pos.x += x), y: (prev.pos.y += y) },
       collided
     }));
+    console.log(`X: ${player.pos.x}, Y: ${player.pos.y}`);
   };
 
   const resetPlayer = React.useCallback(
     (): void =>
       setPlayer({
-        pos: { x: STAGE_WIDTH / 2 - 2, y: 0 },
+        pos: { x: 0, y: STAGE_HEIGHT / 2 - 2 },
         tetromino: randomTetromino().shape,
         collided: false
       }),

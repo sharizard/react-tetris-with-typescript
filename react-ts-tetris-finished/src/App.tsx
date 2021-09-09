@@ -26,15 +26,15 @@ const App: React.FC = () => {
   const { score, setScore, rows, setRows, level, setLevel } = useGameStatus(rowsCleared);
 
   const movePlayer = (dir: number) => {
-    if (!isColliding(player, stage, { x: dir, y: 0 })) {
-      updatePlayerPos({ x: dir, y: 0, collided: false });
+    if (!isColliding(player, stage, { x: 0, y: dir })) {
+      updatePlayerPos({ x: 0, y: dir, collided: false });
     }
   };
 
   const keyUp = ({ keyCode }: { keyCode: number }): void => {
     if (!gameOver) {
       // Change the droptime speed when user releases down arrow
-      if (keyCode === 40) {
+      if (keyCode === 39) {
         setDroptime(1000 / level + 200);
       }
     }
@@ -55,15 +55,15 @@ const App: React.FC = () => {
 
   const move = ({ keyCode, repeat }: { keyCode: number; repeat: boolean }): void => {
     if (!gameOver) {
-      if (keyCode === 37) {
+      if (keyCode === 38) {
         movePlayer(-1);
-      } else if (keyCode === 39) {
-        movePlayer(1);
       } else if (keyCode === 40) {
+        movePlayer(1);
+      } else if (keyCode === 39) {
         // Just call once
         if (repeat) return;
         setDroptime(30);
-      } else if (keyCode === 38) {
+      } else if (keyCode === 37) {
         playerRotate(stage);
       }
     }
@@ -77,17 +77,21 @@ const App: React.FC = () => {
       setDroptime(1000 / level + 200);
     }
 
-    if (!isColliding(player, stage, { x: 0, y: 1 })) {
-      updatePlayerPos({ x: 0, y: 1, collided: false });
+    if (isColliding(player, stage, { x: 1, y: 0 })) {
+      endGame();
     } else {
-      // Game over!
-      if (player.pos.y < 1) {
-        console.log('Game over!');
-        setGameOver(true);
-        setDroptime(null);
-      }
-      updatePlayerPos({ x: 0, y: 0, collided: true });
+      updatePlayerPos({ x: 1, y: 0, collided: false });
     }
+  };
+
+  const endGame = () => {
+    // Game over!
+    if (player.pos.x < 1) {
+      console.log('Game over!');
+      setGameOver(true);
+      setDroptime(null);
+    }
+    updatePlayerPos({ x: 0, y: 0, collided: true });
   };
 
   useInterval(() => {

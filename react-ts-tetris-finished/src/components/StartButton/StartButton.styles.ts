@@ -6,12 +6,11 @@ export const StyledStartButton = styled.button`
   padding: 20px;
   min-height: 20px;
   width: 170px;
-  border-radius: 10px;
   border: none;
   color: white;
-  background: #111;
+  background: #EE516A;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 1rem;
+  font-size: 1.5rem;
   outline: none;
   cursor: pointer;
 `;
